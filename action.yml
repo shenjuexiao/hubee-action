@@ -1,0 +1,103 @@
+name: 'hubee'
+description: 'GitHub 仓库自动推送/镜像到 Gitee 仓库（支持组织/个人、公有/私有、自动建仓）'
+author: 'shenjuexiao'
+
+branding:
+  icon: 'upload-cloud'
+  color: 'red'
+
+inputs:
+  gitee_token:
+    description: 'Gitee 私人令牌（需勾选 projects 权限）'
+    required: true
+
+  gitee_org:
+    description: 'Gitee 组织名，优先于 gitee_username'
+    required: false
+    default: ''
+
+  gitee_username:
+    description: 'Gitee 用户名，仅当 gitee_org 为空时生效'
+    required: false
+    default: ''
+
+  gitee_repo:
+    description: 'Gitee 目标仓库名，默认与 GitHub 仓库同名'
+    required: false
+    default: ''
+
+  gitee_private:
+    description: 'Gitee 仓库可见性（true/false），默认与 GitHub 仓库一致'
+    required: false
+    default: ''
+
+  gitee_api:
+    description: 'Gitee API 基地址'
+    required: false
+    default: 'https://gitee.com/api/v5'
+
+  gitee_host:
+    description: 'Gitee 主机名（用于 Git 推送）'
+    required: false
+    default: 'gitee.com'
+
+  git_user_name:
+    description: '推送使用的 Git 用户名'
+    required: false
+    default: 'github-actions[bot]'
+
+  git_user_email:
+    description: '推送使用的 Git 邮箱'
+    required: false
+    default: 'github-actions[bot]@users.noreply.github.com'
+
+outputs:
+  gitee_namespace:
+    description: '解析后的 Gitee 命名空间'
+    value: ${{ steps.resolve.outputs.gitee_namespace }}
+
+  gitee_target_type:
+    description: '目标类型：org 或 user'
+    value: ${{ steps.resolve.outputs.gitee_target_type }}
+
+  gitee_repo:
+    description: '解析后的 Gitee 仓库名'
+    value: ${{ steps.resolve.outputs.gitee_repo }}
+
+  gitee_private:
+    description: '解析后的可见性：true / false'
+    value: ${{ steps.resolve.outputs.gitee_private }}
+
+  gitee_url:
+    description: 'Gitee 仓库访问地址'
+    value: ${{ steps.resolve.outputs.gitee_url }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Resolve target variables
+      id: resolve
+      shell: bash
+      env:
+        INPUT_GITEE_ORG:      ${{ inputs.gitee_org }}
+        INPUT_GITEE_USERNAME: ${{ inputs.gitee_username }}
+        INPUT_GITEE_REPO:     ${{ inputs.gitee_repo }}
+        INPUT_GITEE_PRIVATE:  ${{ inputs.gitee_private }}
+        INPUT_GITEE_HOST:     ${{ inputs.gitee_host }}
+      run: bash "${{ github.action_path }}/scripts/resolve.sh"
+
+    - name: Ensure Gitee repository exists
+      shell: bash
+      env:
+        INPUT_GITEE_TOKEN: ${{ inputs.gitee_token }}
+        INPUT_GITEE_API:   ${{ inputs.gitee_api }}
+      run: bash "${{ github.action_path }}/scripts/ensure.sh"
+
+    - name: Push to Gitee
+      shell: bash
+      env:
+        INPUT_GITEE_TOKEN: ${{ inputs.gitee_token }}
+        INPUT_GITEE_HOST:  ${{ inputs.gitee_host }}
+        INPUT_GIT_USER_NAME:  ${{ inputs.git_user_name }}
+        INPUT_GIT_USER_EMAIL: ${{ inputs.git_user_email }}
+      run: bash "${{ github.action_path }}/scripts/push.sh"

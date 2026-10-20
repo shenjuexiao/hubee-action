@@ -1,0 +1,67 @@
+# jekyll-gh-pages-0.0.1.yml
+# github.com/shenjuexiao
+# 20261020
+
+# .github/workflows/jekyll-gh-pages.yml
+# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+# name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+# .github/workflows/jekyll-gh-pages.yml
+name: Jekyll gh-page
+
+on:
+  # 当 "Sync to Gitee" 工作流完成后触发
+  workflow_run:
+    workflows: ["Sync to Gitee"]
+    types:
+      - completed
+    branches: [main]
+
+  # 仍然保留手动触发
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build:
+    # 仅当上游工作流成功时才构建（失败则跳过）
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # 关键：workflow_run 触发时默认 checkout 的是默认分支的最新提交，
+          # 这里显式指定为触发 sync 的那次 commit，保证构建内容一致
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
