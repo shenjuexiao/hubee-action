@@ -54,9 +54,11 @@
 ## ⌨️ 用法
 
 1. 新建 Gitee 私人令牌
-`账号设置` -> `私人令牌`-> [`GITEE_TOKEN`](https://gitee.com/profile/personal_access_tokens)
 
-![Gitee Profile Personal Access Tokens](https://cdn.jsdelivr.net/gh/shenjuexiao/shenjuexiao@main/releases_png/gitee_profile_personal_access_tokens.png)
+- `账号设置` -> `私人令牌`-> [`GITEE_TOKEN`](https://gitee.com/profile/personal_access_tokens)
+- 勾选 `projects`、`groups` 权限
+
+![Gitee Profile Personal Access Tokens Edit](https://cdn.jsdelivr.net/gh/shenjuexiao/shenjuexiao@main/releases_png/gitee_profile_personal_access_tokens_edit.png)
 
 2. 新建 GitHub 仓库 Repository Secrets
 `Settings` -> `Secrets and variables` -> `Actions` -> `Repository secrets` -> `Repository secrets`
