@@ -1,6 +1,5 @@
 # hubee-action
 
-
 ## 🚀 项目
 
 [shenjuexiao/hubee-action](https://github.com/shenjuexiao/hubee-action)
@@ -33,8 +32,8 @@
 
 ### 🚨 命名空间解析优先级
 
-1. `gitee_org` → 组织（组织名），优先于 `gitee_username`
-2. `gitee_username` → 个人（用户名）
+1. `gitee_org` -> 组织（组织名），优先于 `gitee_username`
+2. `gitee_username` -> 个人（用户名）
 3. 回退：GitHub 所有者名，按个人（用户名）处理
 
 ### 🔍 可见性规则
@@ -54,37 +53,31 @@
 
 ## ⌨️ 用法
 
-见 [`examples/workflow.yml`](examples/workflow.yml)。
+1. 新建 Gitee 私人令牌
+`账号设置` -> `私人令牌`-> [`GITEE_TOKEN`](https://gitee.com/profile/personal_access_tokens)
+
+![Gitee Profile Personal Access Tokens](https://cdn.jsdelivr.net/gh/shenjuexiao/shenjuexiao@main/releases_png/gitee_profile_personal_access_tokens.png)
+
+2. 新建 GitHub 仓库 Repository Secrets
+`Settings` -> `Secrets and variables` -> `Actions` -> `Repository secrets` -> `Repository secrets`
+
+- 最少设置：`GITEE_TOKEN`
+- 最多设置：`GITEE_TOKEN`、`GITEE_ORG` 或 `GITEE_USERNAME`、`GITEE_REPO`、`GITEE_PRIVATE`
+
+![GitHub Settings Secrets Actions](https://cdn.jsdelivr.net/gh/shenjuexiao/shenjuexiao@main/releases_png/github_settings_secrets_actions.png)
+
+3. 将 [`examples/workflow.yml`](examples/workflow.yml) （重命名）复制到 
+`.github/workflows/`，或者将下列代码复制到原有的 `*.yml` 的 `steps: `内。
 
 ```yaml
-# .github/workflows/sync-to-gitee.yml
-name: Sync to Gitee
-
-on:
-  push:
-    branches: [main, master]
-  schedule:
-    # 每天 UTC 02:00（北京时间 10:00）
-    # - cron: '0 2 * * *'   
-  workflow_dispatch:
-
-jobs:
-  sync:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: hubee-action
-        uses: shenjuexiao/hubee-action@v1
-        with:
-          gitee_token:    ${{ secrets.GITEE_TOKEN }}
-          gitee_org:      ${{ secrets.GITEE_ORG }}
-          gitee_username: ${{ secrets.GITEE_USERNAME }}
-          gitee_repo:     ${{ secrets.GITEE_REPO }}
-          gitee_private:  ${{ secrets.GITEE_PRIVATE }}
+- name: hubee-action
+  uses: shenjuexiao/hubee-action@v1
+  with:
+    gitee_token:    ${{ secrets.GITEE_TOKEN }}
+    gitee_org:      ${{ secrets.GITEE_ORG }}
+    gitee_username: ${{ secrets.GITEE_USERNAME }}
+    gitee_repo:     ${{ secrets.GITEE_REPO }}
+    gitee_private:  ${{ secrets.GITEE_PRIVATE }}
 ```
 
 ## 许可证
