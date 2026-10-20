@@ -1,4 +1,16 @@
+# sync-to-gitee-1.0.1.yml
+# github.com/shenjuexiao
+# 20261020
+
 # .github/workflows/sync-to-gitee.yml
+#
+# 1. 新建 Gitee 私人令牌
+# `账号设置` -> `私人令牌`-> [`GITEE_TOKEN`]
+# 2. 新建 GitHub 仓库 Repository Secrets
+# `Settings` -> `Secrets and variables` -> `Actions` -> `Repository secrets` -> `Repository secrets`
+# 3. 将 [`examples/workflow.yml`](examples/workflow.yml) （重命名）复制到 `.github/workflows/`
+# 或者将相应代码复制到原有的 `*.yml` 的 `steps: `内
+#
 name: Sync to Gitee
 
 on:

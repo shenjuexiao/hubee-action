@@ -67,7 +67,7 @@
 ![GitHub Settings Secrets Actions](https://cdn.jsdelivr.net/gh/shenjuexiao/shenjuexiao@main/releases_png/github_settings_secrets_actions.png)
 
 3. 将 [`examples/workflow.yml`](examples/workflow.yml) （重命名）复制到 
-`.github/workflows/`，或者将下列代码复制到原有的 `*.yml` 的 `steps: `内。
+`.github/workflows/`，或者将相应代码复制到原有的 `*.yml` 的 `steps: `内。
 
 ```yaml
 - name: hubee-action
