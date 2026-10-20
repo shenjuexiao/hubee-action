@@ -61,8 +61,8 @@
 2. 新建 GitHub 仓库 Repository Secrets
 `Settings` -> `Secrets and variables` -> `Actions` -> `Repository secrets` -> `Repository secrets`
 
- - 最少设置：`GITEE_TOKEN`
- - 最多设置：`GITEE_TOKEN`、`GITEE_ORG` 或 `GITEE_USERNAME`、`GITEE_REPO`、`GITEE_PRIVATE`
+- 最少设置：`GITEE_TOKEN`
+- 最多设置：`GITEE_TOKEN`、`GITEE_ORG` 或 `GITEE_USERNAME`、`GITEE_REPO`、`GITEE_PRIVATE`
 
 ![GitHub Settings Secrets Actions](https://cdn.jsdelivr.net/gh/shenjuexiao/shenjuexiao@main/releases_png/github_settings_secrets_actions.png)
 
