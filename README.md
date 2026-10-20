@@ -20,7 +20,7 @@
 
 | 名称 | 必填 | 默认 | 说明 |
 | --- | --- | --- | --- |
-| `gitee_token` | ✅ | — | Gitee 私人令牌（需 `projects` 权限） |
+| `gitee_token` | ✅ | — | Gitee 私人令牌（`projects`、`groups` 权限） |
 | `gitee_org` | ❌ | `''` | Gitee 组织名，优先于 `gitee_username` |
 | `gitee_username` | ❌ | `''` | Gitee 用户名 |
 | `gitee_repo` | ❌ | GitHub 仓库名 | Gitee 目标仓库名 |
@@ -80,6 +80,10 @@
     gitee_private:  ${{ secrets.GITEE_PRIVATE }}
 ```
 
-## 许可证
+## 📚 参考
+
+[Gitee API 文档](https://gitee.com/api/v5/swagger)
+
+## 📄 许可证
 
 [MIT](LICENSE)
